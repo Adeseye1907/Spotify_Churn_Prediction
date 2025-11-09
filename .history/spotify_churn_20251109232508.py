@@ -238,6 +238,19 @@ st.markdown("""
     """)
 st.markdown("---")
 
+# After calculating churn_proba
+percent_proba = churn_proba * 100
+
+st.subheader("Prediction Result")
+
+if percent_proba >= 70:
+    st.error(f"🔥 Critical Churn Risk ({percent_proba:.2f}%)")
+elif percent_proba >= 50:
+    st.warning(f"⚠️ Moderate Churn Risk ({percent_proba:.2f}%)")
+elif percent_proba >= 30:
+    st.info(f"🟡 Low-Moderate Risk ({percent_proba:.2f}%)")
+else:
+    st.success(f"✅ Low Churn Risk ({percent_proba:.2f}%)")
 
 
 if __name__ == '__main__':

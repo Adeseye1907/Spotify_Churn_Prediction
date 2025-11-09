@@ -91,7 +91,7 @@ def main():
     with col_i2:
         ccri = st.number_input(
             'CCRI (Customer Churn Risk Index)', 
-            min_value=0.00, max_value=100.0, value=30.0, step=0.1, 
+            min_value=0.0, max_value=100.0, value=30.0, step=0.1, 
             help="Your custom calculated risk index."
         )
 
@@ -217,28 +217,6 @@ def main():
                     
             except Exception as e:
                 st.error(f"A new error occurred during prediction: {e}")
-AUC_SCORE = 1.0
-st.sidebar.header('Model Performance')
-st.sidebar.metric(
-        label='AUC ROC Score (on Test Set)', 
-        value=f'{AUC_SCORE:.3f}',
-        delta='Higher is better'
-    )
-if AUC_SCORE >= 1.0:
-        st.sidebar.success("Model is highly discriminative.")
-elif AUC_SCORE >= 0.8:
-        st.sidebar.info("Model performance is acceptable.")
-else:
-        st.sidebar.warning("Model performance may be poor.")
-    
-st.markdown("""
-        Enter the user's attributes below to predict churn likelihood. 
-        Ensure you use values that characterize high-risk users (e.g., high skip rate, low listening time) 
-        to test the model's ability to predict churn.
-    """)
-st.markdown("---")
-
-
 
 if __name__ == '__main__':
     main()

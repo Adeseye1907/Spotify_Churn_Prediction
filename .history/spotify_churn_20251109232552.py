@@ -238,6 +238,48 @@ st.markdown("""
     """)
 st.markdown("---")
 
+# Predict button
+if st.button('Predict Churn Likelihood'):
+    if model is None:
+        st.error("Model not loaded. Check MODEL_FILE_PATH and model format.")
+        return
+
+    # Build input_df as before...
+    input_df = pd.DataFrame([input_data], columns=FEATURE_NAMES)
+
+    with st.spinner('Calculating Churn Prediction...'):
+        try:
+            prediction = model.predict(input_df)[0]
+
+            # Compute probability if possible
+            if hasattr(model, 'predict_proba'):
+                churn_proba = model.predict_proba(input_df)[:, 1][0]
+            else:
+                churn_proba = None
+
+            st.subheader('Prediction Result')
+
+            # Custom threshold
+            threshold = 0.35  # can also make this a sidebar slider
+            if churn_proba is not None:
+                if churn_proba >= 0.7:
+                    st.error(f"🔥 Critical Churn Risk ({churn_proba*100:.2f}%)")
+                elif churn_proba >= 0.5:
+                    st.warning(f"⚠️ Moderate Churn Risk ({churn_proba*100:.2f}%)")
+                elif churn_proba >= 0.3:
+                    st.info(f"🟡 Low-Moderate Risk ({churn_proba*100:.2f}%)")
+                else:
+                    st.success(f"✅ Low Churn Risk ({churn_proba*100:.2f}%)")
+            else:
+                # fallback to class prediction if probability unavailable
+                if prediction == 1:
+                    st.error("⚠️ High Churn Risk Predicted (probability not available)")
+                else:
+                    st.success("✅ Low Churn Risk Predicted (probability not available)")
+
+        except Exception as e:
+            st.error(f"Prediction failed: {e}")
+            st.write("Tip: Ensure the model was trained on the exact same feature names, types, and order as provided here.")
 
 
 if __name__ == '__main__':

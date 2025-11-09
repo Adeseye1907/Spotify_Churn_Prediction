@@ -91,7 +91,7 @@ def main():
     with col_i2:
         ccri = st.number_input(
             'CCRI (Customer Churn Risk Index)', 
-            min_value=0.00, max_value=100.0, value=30.0, step=0.1, 
+            min_value=0.0, max_value=100.0, value=30.0, step=0.1, 
             help="Your custom calculated risk index."
         )
 
@@ -131,7 +131,7 @@ def main():
     with col4:
         listening_time = st.slider(
             'Listening Time (minutes/day)', 
-            min_value=0, max_value=300, value=150
+            min_value=-0.01, max_value=300, value=150
         )
     
     with col5:
@@ -237,8 +237,6 @@ st.markdown("""
         to test the model's ability to predict churn.
     """)
 st.markdown("---")
-
-
 
 if __name__ == '__main__':
     main()

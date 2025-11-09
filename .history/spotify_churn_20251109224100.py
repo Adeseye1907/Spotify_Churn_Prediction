@@ -131,7 +131,7 @@ def main():
     with col4:
         listening_time = st.slider(
             'Listening Time (minutes/day)', 
-            min_value=0, max_value=300, value=150
+            min_value=-0.01, max_value=300, value=150
         )
     
     with col5:
@@ -237,8 +237,6 @@ st.markdown("""
         to test the model's ability to predict churn.
     """)
 st.markdown("---")
-
-
 
 if __name__ == '__main__':
     main()
